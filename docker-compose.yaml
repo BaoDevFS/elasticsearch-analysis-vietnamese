@@ -22,7 +22,8 @@ services:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       bootstrap.memory_lock: "true"
       discovery.type: "single-node"
-      xpack.security.enabled: "true"
+      # change to true if want to use auth pass
+      xpack.security.enabled: "false"
     networks:
       - elastic
 
