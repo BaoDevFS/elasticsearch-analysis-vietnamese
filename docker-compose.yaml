@@ -16,6 +16,8 @@ services:
       memlock:
         hard: -1
         soft: -1
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
     environment:
       ES_JAVA_OPTS: "-Xmx2g -Xms2g"
 #      ELASTIC_USERNAME: "elastic"
