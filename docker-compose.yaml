@@ -18,15 +18,29 @@ services:
         soft: -1
     environment:
       ES_JAVA_OPTS: "-Xmx2g -Xms2g"
-      ELASTIC_USERNAME: "elastic"
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+#      ELASTIC_USERNAME: "elastic"
+#      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       bootstrap.memory_lock: "true"
       discovery.type: "single-node"
       # change to true if want to use auth pass
       xpack.security.enabled: "false"
     networks:
       - elastic
-
+  kibana:
+    container_name: kb-container
+    restart: on-failure
+    image: docker.elastic.co/kibana/kibana:${ES_VERSION}
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:${ELASTICSEARCH_PORT}
+      - xpack.security.encryptionKey= "${ELASTICSEARCH_PASSWORD}"
+    #      - elasticsearch.username="${ELASTICSEARCH_USERNAME}"
+    #      - elasticsearch.password=${ELASTICSEARCH_PASSWORD}"
+    networks:
+      - elastic
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
 networks:
   elastic:
     driver: bridge
